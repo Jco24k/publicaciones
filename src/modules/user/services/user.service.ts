@@ -57,7 +57,7 @@ export class UserService {
       handleExceptions(error, this.entityName);
     }
   }
-  async getOneById(id, relations = true) {
+  async getOneById(id: number, relations = true) {
     const user = await this.userRepository.findOne({
       where: { id },
       ...(relations && { relations: this.relationsEntity }),
@@ -95,12 +95,8 @@ export class UserService {
       handleExceptions(error, this.entityName);
     }
   }
-  async deleteOneById(id: number, request_user: User) {
-    const user = await this.getOneById({
-      id,
-      request_user,
-      relations: false,
-    });
+  async remove(id: number) {
+    const user = await this.getOneById(id, false);
     await this.userRepository.save({ id: user.id, isActive: false });
   }
 
