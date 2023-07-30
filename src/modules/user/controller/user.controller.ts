@@ -53,7 +53,6 @@ export class UserController {
     sameUser: true,
   })
   findOne(@Param('id', ParseIntPipe) id: number, @GetUser() user: User) {
-    console.log(hasUserAdmin(user));
     return this.userService.getOneById(id, hasUserAdmin(user) ? false : true);
   }
 

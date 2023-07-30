@@ -64,7 +64,7 @@ describe('ALL-CONTROLLER (e2e)', () => {
         .expect(401);
     });
 
-    it('should create Auth return 201 NOT FOUND', async () => {
+    it('should create Auth return 404 NOT FOUND', async () => {
       return await request(app.getHttpServer())
         .post(pathControllerAuth + '/signup')
         .send({
@@ -81,8 +81,8 @@ describe('ALL-CONTROLLER (e2e)', () => {
       const user = await request(app.getHttpServer())
         .post(pathControllerAuth + '/signup')
         .send({
-          username: 'testststEas',
-          email: 'test2@test.com',
+          username: 'teststasda2stEas',
+          email: 'tesasdasdt2@test.com',
           password: 'asda123AsaA123eaa',
           roles: [38],
         } as CreateUserDto)
