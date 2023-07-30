@@ -22,6 +22,7 @@ import { UserService } from '../services/user.service';
 import { User } from '../entities/User.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { UpdateUserRoleDto } from '../dto/update-user-role.dto';
 
 @ApiTags(CurrentPath.USER.toUpperCase())
 @Controller(CurrentPath.USER)
@@ -58,6 +59,16 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
   ) {
     return this.userService.update(id, updateUserDto);
+  }
+
+  @ApiOkResponseImplementation({ type: User, method: 'update' })
+  @ApiNotFoundImplementation()
+  @Patch('admin/:id')
+  updateAdmin(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserRoleDto,
+  ) {
+    return this.userService.updateRole(id, updateUserDto);
   }
 
   @ApiOkResponseImplementation({ method: 'delete' })

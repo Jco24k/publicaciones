@@ -11,6 +11,7 @@ import config from 'src/config/config';
 import { ConfigType } from '@nestjs/config';
 import { QueryParamsConvert } from 'src/common/dto/convert-query-params.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
+import { UpdateUserRoleDto } from '../dto/update-user-role.dto';
 
 @Injectable()
 export class UserService {
@@ -82,12 +83,13 @@ export class UserService {
     }
   }
 
-  async updateRole(id: number, createUserDto: UpdateUserDto) {
+  async updateRole(id: number, createUserDto: UpdateUserRoleDto) {
     const user = await this.getOneById(id);
-    const { roles } = await this.getAndVerifyDto(createUserDto);
+    const { roles, restOfDto } = await this.getAndVerifyDto(createUserDto);
     try {
       const userUpdate = await this.userRepository.save({
         ...user,
+        ...restOfDto,
         roles,
       });
       return userUpdate;
@@ -100,7 +102,9 @@ export class UserService {
     await this.userRepository.save({ id: user.id, isActive: false });
   }
 
-  async getAndVerifyDto(dto: Partial<CreateUserDto> = {}) {
+  async getAndVerifyDto(
+    dto: Partial<CreateUserDto & UpdateUserDto & UpdateUserRoleDto> = {},
+  ) {
     const { roles, ...restOfDto } = dto;
     const promises = await Promise.all([
       roles?.length ? this.roleService.getRoles(roles) : undefined,
