@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
+  ApiControllerImplementation,
   ApiCreatedResponseImplementation,
   ApiNotFoundImplementation,
   ApiOkResponseImplementation,
@@ -29,7 +30,7 @@ import { QueryPararmsPost } from 'src/common/dto/query-params-post';
 
 @ApiTags(CurrentPath.POST.toUpperCase())
 @Controller(CurrentPath.POST)
-@ApiCreatedResponseImplementation()
+@ApiControllerImplementation()
 @ApiBearerAuth()
 export class PostController {
   constructor(private readonly postService: PostService) {}

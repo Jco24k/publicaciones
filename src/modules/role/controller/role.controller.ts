@@ -9,9 +9,10 @@ import {
   Query,
   ParseIntPipe,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RoleService } from '../services/role.service';
 import {
+  ApiControllerImplementation,
   ApiCreatedResponseImplementation,
   ApiNotFoundImplementation,
   ApiOkResponseImplementation,
@@ -22,18 +23,28 @@ import { PaginationQueryParams } from 'src/common/dto/pagination-query-params.dt
 import { UpdateRoleDto } from '../dto/update-role.dto';
 import { PaginationQueryParamsPipe } from 'src/common/pipes/pagination-query-param.pipe';
 import { CurrentPath } from 'src/common/interfaces/current.path.interface';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { RolesValid } from '../entities/enum/roles-valid.enum';
 
 @ApiTags(CurrentPath.ROLE.toUpperCase())
 @Controller(CurrentPath.ROLE)
+@ApiBearerAuth()
+@ApiControllerImplementation()
 export class RoleController {
   constructor(private readonly roleService: RoleService) {}
 
   @ApiCreatedResponseImplementation(Role)
   @Post()
+  @Auth({
+    roles: [RolesValid.ADMINISTRADOR],
+  })
   create(@Body() createRolDto: CreateRoleDto) {
     return this.roleService.create(createRolDto);
   }
 
+  @Auth({
+    roles: [RolesValid.ADMINISTRADOR],
+  })
   @ApiOkResponseImplementation({ type: [Role], method: 'get' })
   @Get()
   findAll(
@@ -43,6 +54,9 @@ export class RoleController {
     return this.roleService.findAll(query);
   }
 
+  @Auth({
+    roles: [RolesValid.ADMINISTRADOR],
+  })
   @ApiOkResponseImplementation({ type: Role, method: 'get' })
   @ApiNotFoundImplementation()
   @Get(':id')
@@ -50,6 +64,9 @@ export class RoleController {
     return this.roleService.getOneById(id);
   }
 
+  @Auth({
+    roles: [RolesValid.ADMINISTRADOR],
+  })
   @ApiOkResponseImplementation({ type: Role, method: 'update' })
   @ApiNotFoundImplementation()
   @Patch(':id')
@@ -60,6 +77,9 @@ export class RoleController {
     return this.roleService.update(id, updateRoleDto);
   }
 
+  @Auth({
+    roles: [RolesValid.ADMINISTRADOR],
+  })
   @ApiOkResponseImplementation({ method: 'delete' })
   @ApiNotFoundImplementation()
   @Delete(':id')

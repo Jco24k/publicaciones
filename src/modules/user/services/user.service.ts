@@ -68,7 +68,7 @@ export class UserService {
   }
 
   async update(id: number, createUserDto: UpdateUserDto) {
-    const user = await this.getOneById(id);
+    const user = await this.getOneById(id, false);
     const { roles, restOfDto } = await this.getAndVerifyDto(createUserDto);
     try {
       const userUpdate = await this.userRepository.save({

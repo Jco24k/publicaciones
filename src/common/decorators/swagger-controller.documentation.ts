@@ -78,9 +78,11 @@ export function ApiNotFoundImplementation(options?: ApiResponseOptions) {
 }
 
 export function ApiControllerImplementation(options?: ApiResponseOptions) {
-  return [
-    ApiForbiddenResponseImplementation(options),
-    ApiUnauthorizedResponseImplementation(options),
-    ApiBadRequestResponseImplementation(options),
-  ];
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  return function (target: any) {
+    // Aplicar aquí los tres decoradores de respuesta a todos los métodos
+    ApiForbiddenResponseImplementation(options);
+    ApiUnauthorizedResponseImplementation(options);
+    ApiBadRequestResponseImplementation(options);
+  };
 }

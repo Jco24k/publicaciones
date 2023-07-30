@@ -18,9 +18,9 @@ import { PostModule } from './modules/posts/post.module';
     }),
     DatabaseModule,
     CommonModule,
-    RoleModule,
-    UserModule,
     AuthModule,
+    UserModule,
+    RoleModule,
     PostModule,
   ],
 })

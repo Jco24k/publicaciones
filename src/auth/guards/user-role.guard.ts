@@ -35,7 +35,7 @@ export class UserRoleGuard implements CanActivate {
 
     if (sameUser) {
       const idParam: number = req.params.id;
-      if (idParam !== user.id) {
+      if (+idParam !== user.id) {
         throw new ForbiddenException(
           'You are not allowed to perform this action on another user',
         );

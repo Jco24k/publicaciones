@@ -1,23 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AppPipe } from './config/app-pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('Booststrap');
 
   app.setGlobalPrefix('api');
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-      transformOptions: {
-        enableImplicitConversion: true,
-      },
-    }),
-  );
+  app.useGlobalPipes(AppPipe);
 
   const configSwagger = new DocumentBuilder()
     .addBearerAuth({
@@ -27,6 +19,12 @@ async function bootstrap() {
       in: 'headers',
     })
     .setTitle('Backend Evaluacion')
+    .setDescription(
+      `Credentials: </br>{</br>
+      &nbsp;&nbsp;"username": "${process.env.USER_ADMIN}",</br>
+      &nbsp;&nbsp;"password": "${process.env.PASS_ADMIN}"</br>
+    }`,
+    )
     .setVersion('1.0')
     .build();
 
