@@ -7,6 +7,7 @@ import { CommonModule } from './common/common.module';
 import { RoleModule } from './modules/role/role.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { PostModule } from './modules/posts/post.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module';
     RoleModule,
     UserModule,
     AuthModule,
+    PostModule,
   ],
 })
 export class AppModule {}

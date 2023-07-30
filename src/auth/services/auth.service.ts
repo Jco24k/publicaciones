@@ -3,7 +3,7 @@ import { AuthDto } from '../dto/auth.dto';
 import { JwtPayload } from '../interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/modules/user/services/user.service';
-import { PassportCrypt } from 'src/common/utli/passport-crypt';
+import { PassportCrypt } from 'src/common/util/passport-crypt';
 import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
 
 @Injectable()
