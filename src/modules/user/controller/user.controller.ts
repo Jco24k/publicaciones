@@ -1,7 +1,6 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
@@ -11,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import {
-  ApiCreatedResponseImplementation,
   ApiNotFoundImplementation,
   ApiOkResponseImplementation,
 } from 'src/common/decorators/swagger-controller.documentation';
@@ -20,7 +18,6 @@ import { PaginationQueryParamsPipe } from 'src/common/pipes/pagination-query-par
 import { CurrentPath } from 'src/common/interfaces/current.path.interface';
 import { UserService } from '../services/user.service';
 import { User } from '../entities/User.entity';
-import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UpdateUserRoleDto } from '../dto/update-user-role.dto';
 
@@ -28,12 +25,6 @@ import { UpdateUserRoleDto } from '../dto/update-user-role.dto';
 @Controller(CurrentPath.USER)
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  @ApiCreatedResponseImplementation(User)
-  @Post()
-  create(@Body() createRolDto: CreateUserDto) {
-    return this.userService.create(createRolDto);
-  }
 
   @ApiOkResponseImplementation({ type: [User], method: 'get' })
   @Get()

@@ -4,7 +4,7 @@ import { FindManyOptions, FindOptionsRelations, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { RoleService } from '../../role/services/role.service';
 import { CreateUserDto } from '../dto/create-user.dto';
-import { PassportCrypt } from 'src/common/utli/encrypter';
+import { PassportCrypt } from 'src/common/utli/passport-crypt';
 import { handleExceptions } from 'src/common/errors/handleExceptions';
 import { PaginationQueryParams } from 'src/common/dto/pagination-query-params.dto';
 import config from 'src/config/config';
@@ -115,5 +115,13 @@ export class UserService {
       roles: promises[0],
       restOfDto,
     };
+  }
+
+  async authLogin(username: string) {
+    const user = await this.userRepository.findOne({
+      where: { username },
+      select: { username: true, password: true, id: true },
+    });
+    return user;
   }
 }
