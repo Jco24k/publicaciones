@@ -9,7 +9,7 @@ export const CleanDB = async (dbConnection: DataSource) => {
   await dbConnection.createQueryBuilder().delete().from(Post).execute();
   await dbConnection.createQueryBuilder().delete().from(User).execute();
   // await dbConnection.createQueryBuilder().delete().from(Role).execute();
-  await createFirstUserAdmin(dbConnection);
+  return await createFirstUserAdmin(dbConnection);
 };
 
 const createFirstUserAdmin = async (dataSource: DataSource) => {
@@ -62,6 +62,7 @@ const createFirstUserAdmin = async (dataSource: DataSource) => {
         roles,
       });
     }
+    return roles[0]
   } catch (error) {
     console.error('Error creating the first admin user:', error);
   }

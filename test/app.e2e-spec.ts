@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { InitApp } from './common/init-app';
 import { DataSource } from 'typeorm';
@@ -11,6 +11,7 @@ import { CreatePostDto } from 'src/modules/posts/dto/create-post.dto';
 import { UpdatePostDto } from 'src/modules/posts/dto/update-post.dto';
 import { Post } from 'src/modules/posts/entities/post.entity';
 
+jest.setTimeout(30000);
 describe('ALL-CONTROLLER (e2e)', () => {
   let app: INestApplication;
   let dbConnection: DataSource;
@@ -20,6 +21,7 @@ describe('ALL-CONTROLLER (e2e)', () => {
   let token: string;
   let utlimoPost: string;
   let ultimoUser: string;
+  let roleId: number;
   beforeAll(async () => {
     const {
       app: appInit,
@@ -31,6 +33,9 @@ describe('ALL-CONTROLLER (e2e)', () => {
     dbConnection = await dbConnectionInit;
     jwtService = jwts;
     moduleRef = modRef;
+    const role = await CleanDB(dbConnection);
+    roleId = role.id
+    console.log(role)
   });
 
   afterAll(async () => {
@@ -71,24 +76,26 @@ describe('ALL-CONTROLLER (e2e)', () => {
           username: 'testststEas',
           email: 'test2@test.com',
           password: 'asda123AsaA123eaa',
-          roles: [1123123],
+          roles: [99999],
         } as CreateUserDto)
         .auth(token, { type: 'bearer' })
         .expect(404);
     });
 
     it('should create Auth return 201 CREATED', async () => {
-      const user = await request(app.getHttpServer())
+      const { status, body } = await request(app.getHttpServer())
         .post(pathControllerAuth + '/signup')
         .send({
           username: 'teststasda2stEas',
           email: 'tesasdasdt2@test.com',
           password: 'asda123AsaA123eaa',
-          roles: [38],
+          roles: [roleId],
         } as CreateUserDto)
         .auth(token, { type: 'bearer' })
-        .expect(201);
-      ultimoUser = user.body.id;
+
+      console.log(body);
+      expect(status).toBe(HttpStatus.CREATED);
+      ultimoUser = body.id;
     });
   });
 
