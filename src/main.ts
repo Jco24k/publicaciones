@@ -18,7 +18,7 @@ async function bootstrap() {
       bearerFormat: 'JWT',
       in: 'headers',
     })
-    .setTitle('Backend Evaluacion')
+    .setTitle('Backend with Test')
     .setDescription(
       `Credentials: </br>{</br>
       &nbsp;&nbsp;"username": "${process.env.USER_ADMIN}",</br>
