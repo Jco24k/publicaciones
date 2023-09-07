@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
-import { User } from 'src/modules/user/entities/User.entity';
+import { User } from 'src/modules/user/entities/user.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'roles' })

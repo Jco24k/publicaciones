@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PassportCrypt } from 'src/common/util/passport-crypt';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
 import { Role } from 'src/modules/role/entities/role.entity';
-import { User } from 'src/modules/user/entities/User.entity';
+import { User } from 'src/modules/user/entities/user.entity';
 import { DataSource, In, Repository } from 'typeorm';
 
 @Injectable()

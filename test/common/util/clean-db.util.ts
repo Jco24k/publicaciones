@@ -2,7 +2,7 @@ import { PassportCrypt } from 'src/common/util/passport-crypt';
 import { Post } from 'src/modules/posts/entities/post.entity';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
 import { Role } from 'src/modules/role/entities/role.entity';
-import { User } from 'src/modules/user/entities/User.entity';
+import { User } from 'src/modules/user/entities/user.entity';
 import { DataSource, In } from 'typeorm';
 
 export const CleanDB = async (dbConnection: DataSource) => {

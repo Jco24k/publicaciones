@@ -1,5 +1,5 @@
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
-import { User } from 'src/modules/user/entities/User.entity';
+import { User } from 'src/modules/user/entities/user.entity';
 
 export const hasUserAdmin = (
   user: Partial<User>,

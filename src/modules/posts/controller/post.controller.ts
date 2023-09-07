@@ -21,7 +21,7 @@ import { CurrentPath } from 'src/common/interfaces/current.path.interface';
 import { PostService } from '../services/post.service';
 import { Post as PostEntity } from '../entities/post.entity';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import { User } from 'src/modules/user/entities/User.entity';
+import { User } from 'src/modules/user/entities/user.entity';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';

@@ -18,7 +18,7 @@ import { PaginationQueryParams } from 'src/common/dto/pagination-query-params.dt
 import { PaginationQueryParamsPipe } from 'src/common/pipes/pagination-query-param.pipe';
 import { CurrentPath } from 'src/common/interfaces/current.path.interface';
 import { UserService } from '../services/user.service';
-import { User } from '../entities/User.entity';
+import { User } from '../entities/user.entity';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UpdateUserRoleDto } from '../dto/update-user-role.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';

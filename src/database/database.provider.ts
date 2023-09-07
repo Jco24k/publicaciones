@@ -10,6 +10,7 @@ export const DatabaseProvider: DynamicModule = TypeOrmModule.forRootAsync({
     ...configService.database,
     autoLoadEntities: true,
     synchronize: true,
+    ssl: true
   }),
   inject: [config.KEY],
 });

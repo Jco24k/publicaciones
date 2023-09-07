@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common/exceptions';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
-import { User } from 'src/modules/user/entities/User.entity';
+import { User } from 'src/modules/user/entities/user.entity';
 import { META_ROLES } from '../decorators/role-protected.decorator';
 import { META_USER } from '../decorators/user-protected.decorator';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
