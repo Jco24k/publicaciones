@@ -36,3 +36,15 @@ jobs:
 
     - run: npm run test:e2e
     - run: pm2 start ecosystem.config.js
+      env: 
+          DB_DATABASE: {{secrets.DB_DATABASE}}
+          DB_HOST: {{secrets.DB_HOST}}
+          DB_PASS: {{secrets.DB_PASS}}
+          DB_PORT: {{secrets.DB_PORT}}
+          DB_USER: {{secrets.DB_USER}}
+          JWT_EXPIRE: {{secrets.JWT_EXPIRE}}
+          JWT_SECRET: {{secrets.JWT_SECRET}}
+          PAGE_NUMBER: {{secrets.PAGE_NUMBER}}
+          PAGE_SIZE: {{secrets.PAGE_SIZE}}
+          USER_ADMIN: {{secrets.USER_ADMIN}}
+          PASS_ADMIN: {{secrets.PASS_ADMIN}}
