@@ -26,18 +26,19 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install
-      env: 
-        DB_DATABASE: ${{secrets.DB_DATABASE}}
-        DB_HOST: ${{secrets.DB_HOST}}
-        DB_PASS: ${{secrets.DB_PASS}}
-        DB_PORT: ${{secrets.DB_PORT}}
-        DB_USER: ${{secrets.DB_USER}}
-        JWT_EXPIRE: ${{secrets.JWT_EXPIRE}}
-        JWT_SECRET: ${{secrets.JWT_SECRET}}
-        PAGE_NUMBER: ${{secrets.PAGE_NUMBER}}
-        PAGE_SIZE: ${{secrets.PAGE_SIZE}}
-        USER_ADMIN: ${{secrets.USER_ADMIN}}
-        PASS_ADMIN: ${{secrets.PASS_ADMIN}}
+    - name: Crear archivo .env
+      run: |
+        echo "DB_DATABASE=${{secrets.DB_DATABASE}}" >> .env
+        echo "DB_HOST=${{secrets.DB_HOST}}" >> .env
+        echo "DB_PASS=${{secrets.DB_PASS}}" >> .env
+        echo "DB_PORT=${{secrets.DB_PORT}}" >> .env
+        echo "DB_USER=${{secrets.DB_USER}}" >> .env
+        echo "JWT_EXPIRE=${{secrets.JWT_EXPIRE}}" >> .env
+        echo "JWT_SECRET=${{secrets.JWT_SECRET}}" >> .env
+        echo "PAGE_NUMBER=${{secrets.PAGE_NUMBER}}" >> .env
+        echo "PAGE_SIZE=${{secrets.PAGE_SIZE}}" >> .env
+        echo "USER_ADMIN=${{secrets.USER_ADMIN}}" >> .env
+        echo "PASS_ADMIN=${{secrets.PASS_ADMIN}}" >> .env
     - run: npm run build --if-present
 
     # Detener y eliminar el proyecto solo si existe
