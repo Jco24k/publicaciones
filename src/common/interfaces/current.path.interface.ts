@@ -3,4 +3,5 @@ export enum CurrentPath {
   USER = 'user',
   AUTH = 'auth',
   POST = 'post',
+  EMPLOYEE = 'employee'
 }

@@ -12,6 +12,7 @@ import { ConfigType } from '@nestjs/config';
 import { QueryParamsConvert } from 'src/common/dto/convert-query-params.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UpdateUserRoleDto } from '../dto/update-user-role.dto';
+import { EmployeeService } from 'src/modules/employee/services/employee.service';
 
 @Injectable()
 export class UserService {
@@ -23,9 +24,10 @@ export class UserService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly roleService: RoleService,
+    private readonly employeeService: EmployeeService,
     @Inject(config.KEY)
     private readonly configService: ConfigType<typeof config>,
-  ) {}
+  ) { }
 
   async findAll(queryParams: PaginationQueryParams) {
     const { query } = this.configService;
@@ -105,14 +107,16 @@ export class UserService {
   async getAndVerifyDto(
     dto: Partial<CreateUserDto & UpdateUserDto & UpdateUserRoleDto> = {},
   ) {
-    const { roles, ...restOfDto } = dto;
-    const promises = await Promise.all([
-      roles?.length ? this.roleService.getRoles(roles) : undefined,
+    const { rolesIds = [], employeeId, ...restOfDto } = dto;
+    const [roles, employee] = await Promise.all([
+      rolesIds?.length ? this.roleService.getRoles(rolesIds) : undefined,
+      employeeId ? this.employeeService.getOneById(employeeId) : undefined,
     ]);
     if (restOfDto.password)
       restOfDto.password = PassportCrypt.encrypt(restOfDto.password);
     return {
-      roles: promises[0],
+      roles,
+      employee,
       restOfDto,
     };
   }

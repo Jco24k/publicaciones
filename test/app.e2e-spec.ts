@@ -76,7 +76,7 @@ describe('ALL-CONTROLLER (e2e)', () => {
           username: 'testststEas',
           email: 'test2@test.com',
           password: 'asda123AsaA123eaa',
-          roles: [99999],
+          rolesIds: [99999],
         } as CreateUserDto)
         .auth(token, { type: 'bearer' })
         .expect(404);
@@ -89,7 +89,7 @@ describe('ALL-CONTROLLER (e2e)', () => {
           username: 'teststasda2stEas',
           email: 'tesasdasdt2@test.com',
           password: 'asda123AsaA123eaa',
-          roles: [roleId],
+          rolesIds: [roleId],
         } as CreateUserDto)
         .auth(token, { type: 'bearer' })
 

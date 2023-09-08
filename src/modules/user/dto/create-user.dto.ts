@@ -3,6 +3,7 @@ import {
   IsArray,
   IsEmail,
   IsInt,
+  IsNumber,
   IsString,
   Matches,
   MaxLength,
@@ -46,5 +47,10 @@ export class CreateUserDto {
   @UniqueItemArrayPipe('roles', {
     message: 'roles contains duplicate elements',
   })
-  roles: number[];
+  rolesIds: number[];
+
+  @ApiProperty({ type: () => Number })
+  @IsNumber()
+  @Min(1)
+  employeeId: number;
 }

@@ -1,13 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Employee } from 'src/modules/employee/entities/employee.entity';
 import { Post } from 'src/modules/posts/entities/post.entity';
 import { Role } from 'src/modules/role/entities/role.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -87,4 +90,11 @@ export class User {
   //       referencedColumnName: 'id',
   //     },
   //   })
+
+  @OneToOne(() => Employee, (employee) => employee.user, {
+    nullable: false,
+    cascade: true
+  })
+  @JoinColumn({ name: 'employee_id' })
+  employee: Employee;
 }

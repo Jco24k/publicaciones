@@ -8,6 +8,8 @@ import { RoleModule } from './modules/role/role.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { PostModule } from './modules/posts/post.module';
+import { Employee } from './modules/employee/entities/employee.entity';
+import { EmployeeModule } from './modules/employee/employee.module';
 
 @Module({
   imports: [
@@ -18,10 +20,11 @@ import { PostModule } from './modules/posts/post.module';
     }),
     DatabaseModule,
     CommonModule,
+    EmployeeModule,
     AuthModule,
     UserModule,
     RoleModule,
     PostModule,
   ],
 })
-export class AppModule {}
+export class AppModule { }

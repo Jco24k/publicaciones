@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
 import { User } from 'src/modules/user/entities/user.entity';
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Permit } from './permit.entity';
 
 @Entity({ name: 'roles' })
 export class Role {
@@ -34,4 +35,10 @@ export class Role {
 
   @ManyToMany(() => User, (users) => users.roles)
   users: User[];
+
+  @ManyToMany(() => Permit, (permit) => permit.roles, {
+    nullable: true
+  })
+  @JoinTable()
+  permits: Permit[];
 }

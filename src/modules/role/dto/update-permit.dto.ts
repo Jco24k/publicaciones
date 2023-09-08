@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ArrayNotEmpty, ArrayUnique, IsArray, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString, MaxLength, Min } from 'class-validator';
 
-export class CreateRoleDto {
+export class UpdatePermitDto {
   @ApiProperty({
     nullable: false,
     type: 'string',
@@ -10,14 +10,5 @@ export class CreateRoleDto {
   @IsString()
   @MaxLength(40)
   @IsNotEmpty()
-  name: string;
-
-  @ApiPropertyOptional({ isArray: true, type: () => Number })
-  @IsInt({ each: true })
-  @Min(1, { each: true })
-  @IsArray()
-  @ArrayNotEmpty()
-  @ArrayUnique()
-  @IsOptional()
-  permitIds: number[];
+  description: string;
 }

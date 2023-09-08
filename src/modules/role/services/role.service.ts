@@ -9,6 +9,7 @@ import { PaginationQueryParams } from 'src/common/dto/pagination-query-params.dt
 import config from 'src/config/config';
 import { ConfigType } from '@nestjs/config';
 import { QueryParamsConvert } from 'src/common/dto/convert-query-params.dto';
+import { PermitService } from './permit.service';
 
 @Injectable()
 export class RoleService {
@@ -17,13 +18,15 @@ export class RoleService {
   constructor(
     @InjectRepository(Role)
     private roleRepository: Repository<Role>,
+    private permitService: PermitService,
     @Inject(config.KEY)
     private readonly configService: ConfigType<typeof config>,
-  ) {}
+  ) { }
   async create(createRoleDto: CreateRoleDto) {
+    const roles = await this.getAndVerifyDto(createRoleDto);
     try {
       const newRole = await this.roleRepository.save({
-        ...createRoleDto,
+        ...roles,
       });
       return newRole;
     } catch (error) {
@@ -56,11 +59,12 @@ export class RoleService {
   }
 
   async update(id: number, updateRoleDto: UpdateRoleDto) {
-    const role = await this.getOneById(id);
+    const roleFound = await this.getOneById(id);
+    const rolesVerify = await this.getAndVerifyDto(updateRoleDto);
     try {
       const roleUpdate = await this.roleRepository.save({
-        ...role,
-        ...updateRoleDto,
+        ...roleFound,
+        ...rolesVerify,
       });
       return roleUpdate;
     } catch (error) {
@@ -91,5 +95,18 @@ export class RoleService {
       throw new NotFoundException(notFoundRoles, errorMsg);
     }
     return roles;
+  }
+
+  async getAndVerifyDto(
+    dto: Partial<CreateRoleDto> = {},
+  ): Promise<Role> {
+    const { permitIds = [], ...restOfDto } = dto;
+    const [permits] = await Promise.all([
+      permitIds?.length ? this.permitService.getPermits(permitIds) : undefined,
+    ]);
+    return {
+      permits,
+      ...restOfDto,
+    } as Role;
   }
 }
