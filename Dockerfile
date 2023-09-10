@@ -3,7 +3,7 @@ FROM node:16-alpine
 
 WORKDIR /usr/src
 
-COPY [".", "usr/src/"]
+COPY . /usr/src/
 
 COPY package*.json ./
 
