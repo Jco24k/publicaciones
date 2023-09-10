@@ -5,6 +5,8 @@ WORKDIR /usr/src
 
 COPY [".", "usr/src/"]
 
+COPY package*.json ./
+
 RUN npm install
 
 EXPOSE 3000
