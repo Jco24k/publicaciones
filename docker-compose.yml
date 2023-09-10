@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15.4-alpine 
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_DATABASE}
+    container_name: postgres-db
+    ports:
+      - "${DB_PORT}:5432"
+  app_publication:
+    image: node:16-alpine
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      - POSTGRES_DB=${DB_DATABASE}
+      - DB_PORT = ${DB_PORT}
+      - JWT_EXPIRE = ${JWT_EXPIRE}
+      - JWT_SECRET = ${JWT_SECRET}
+      - PAGE_NUMBER = ${PAGE_NUMBER}
+      - PAGE_SIZE = ${PAGE_SIZE}
+      - USER_ADMIN = ${USER_ADMIN}
+      - PASS_ADMIN = ${PASS_ADMIN}
+
+    container_name: app_publication
+    depends_on:
+      - db
+    ports:
+      - "${PORT}:3000"  
+  
