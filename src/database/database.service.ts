@@ -1,8 +1,10 @@
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PassportCrypt } from 'src/common/util/passport-crypt';
+import { Employee } from 'src/modules/employee/entities/employee.entity';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
 import { Role } from 'src/modules/role/entities/role.entity';
+import { employeeDtoStub } from 'src/modules/seed/dto/employee.dto.stub';
 import { User } from 'src/modules/user/entities/user.entity';
 import { DataSource, In, Repository } from 'typeorm';
 
@@ -15,8 +17,10 @@ export class DatabaseService implements OnModuleInit {
     private readonly roleRepository: Repository<Role>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Employee)
+    private readonly employeeRepository: Repository<Employee>,
     private readonly connection: DataSource,
-  ) {}
+  ) { }
   async onModuleInit() {
     await this.createFirstUserAdmin();
   }
@@ -44,13 +48,16 @@ export class DatabaseService implements OnModuleInit {
     const userFind = await this.userRepository.findOne({
       where: { username: adminUser },
     });
-    if (!userFind)
+    if (!userFind) {
+      const employeeCreate = await this.employeeRepository.save(employeeDtoStub());
       await this.userRepository.save({
         email: adminUser,
         username: adminUser,
         password: PassportCrypt.encrypt(adminPass),
         roles,
+        employee: employeeCreate
       } as User);
+    }
   }
 
   async getConnection() {

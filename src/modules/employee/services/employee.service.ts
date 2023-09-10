@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, FindOptionsRelations, Repository } from 'typeorm';
 import { Employee } from '../entities/employee.entity';
-import { CreateEmployeeDto } from '../dto/create-user.dto';
+import { CreateEmployeeDto } from '../dto/create-employee.dto';
 import { handleExceptions } from 'src/common/errors/handleExceptions';
 import { PaginationQueryParams } from 'src/common/dto/pagination-query-params.dto';
 import config from 'src/config/config';
