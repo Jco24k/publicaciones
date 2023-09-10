@@ -10,7 +10,7 @@ services:
       - POSTGRES_DB=${DB_DATABASE}
     container_name: postgres-db
     ports:
-      - "${DB_PORT}:5432"
+      - "5432:5432"
   app_publication:
     image: node:16-alpine
     environment:
@@ -29,5 +29,5 @@ services:
     depends_on:
       - db
     ports:
-      - "${PORT}:3000"  
+      - "3000:3000"  
   
