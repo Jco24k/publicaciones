@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { UniqueItemArrayPipe } from 'src/common/validators/unique-item-array.decorator';
-import { CreateEmployeeDto } from './create-user.dto';
+import { CreateEmployeeDto } from './create-employee.dto';
 
 export class UpdateEmployeeDto extends PartialType(CreateEmployeeDto) {
 
