@@ -17,13 +17,13 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
       - POSTGRES_DB=${DB_DATABASE}
-      - DB_PORT = ${DB_PORT}
-      - JWT_EXPIRE = ${JWT_EXPIRE}
-      - JWT_SECRET = ${JWT_SECRET}
-      - PAGE_NUMBER = ${PAGE_NUMBER}
-      - PAGE_SIZE = ${PAGE_SIZE}
-      - USER_ADMIN = ${USER_ADMIN}
-      - PASS_ADMIN = ${PASS_ADMIN}
+      - DB_PORT=${DB_PORT}
+      - JWT_EXPIRE=${JWT_EXPIRE}
+      - JWT_SECRET=${JWT_SECRET}
+      - PAGE_NUMBER=${PAGE_NUMBER}
+      - PAGE_SIZE=${PAGE_SIZE}
+      - USER_ADMIN=${USER_ADMIN}
+      - PASS_ADMIN=${PASS_ADMIN}
 
     container_name: app_publication
     depends_on:
