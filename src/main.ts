@@ -18,7 +18,7 @@ async function bootstrap() {
       bearerFormat: 'JWT',
       in: 'headers',
     })
-    .setTitle('Backend with Github Actions (self-hosted) and  Docker!')
+    .setTitle('Backend with Github Actions (self-hosted) and  Docker! asdasd')
     .setDescription(
       `Credentials: </br>{</br>
       &nbsp;&nbsp;"username": "${process.env.USER_ADMIN}",</br>
