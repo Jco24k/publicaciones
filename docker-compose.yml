@@ -29,6 +29,8 @@ services:
     volumes:
       - .:/usr/src
       - /usr/src/node_modules
+    command:
+      - npm run start:dev
     depends_on:
       - db
     ports:
