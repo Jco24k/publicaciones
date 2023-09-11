@@ -28,6 +28,7 @@ services:
     container_name: app_publication
     volumes:
       - .:/usr/src
+      - /usr/src/node_modules
     depends_on:
       - db
     ports:
