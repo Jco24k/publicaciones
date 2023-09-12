@@ -1,2 +1,7 @@
 /node_modules
 /dist
+.gitignore
+README.md
+Dockerfile
+docker-compose-override.yml
+docker-compose.yml
