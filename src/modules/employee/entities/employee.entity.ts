@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Post } from 'src/modules/posts/entities/post.entity';
 import { Role } from 'src/modules/role/entities/role.entity';
 import { User } from 'src/modules/user/entities/user.entity';
@@ -36,7 +36,7 @@ export class Employee {
     type: 'string',
   })
   @Column('varchar', {
-    nullable: false,
+    nullable: true,
     length: 40,
   })
   last_name: string;

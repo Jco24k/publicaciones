@@ -1,0 +1,104 @@
+[
+    {
+        "code": "PCALL01",
+        "name": "permit all",
+        "description": "Permit for all services"
+    },
+
+    {
+        "code": "PCE001",
+        "name": "create employee",
+        "description": "Permit for create employees"
+    },
+    {
+        "code": "PRE001",
+        "name": "read employee",
+        "description": "Permit for read employees"
+    },
+    {
+        "code": "PUE001",
+        "name": "update employee",
+        "description": "Permit for update employees"
+    },
+    {
+        "code": "PDE001",
+        "name": "delete employee",
+        "description": "Permit for delete employees"
+    },
+
+    {
+        "code": "PCU001",
+        "name": "create user",
+        "description": "Permit for create users"
+    },
+    {
+        "code": "PRU001",
+        "name": "read user",
+        "description": "Permit for read users"
+    },
+    {
+        "code": "PUU001",
+        "name": "update user",
+        "description": "Permit for update users"
+    },
+    {
+        "code": "PDU001",
+        "name": "delete user",
+        "description": "Permit for delete users"
+    },
+
+    {
+        "code": "PCR001",
+        "name": "create role",
+        "description": "Permit for create roles"
+    },
+    {
+        "code": "PRR001",
+        "name": "read role",
+        "description": "Permit for read roles"
+    },
+    {
+        "code": "PUR001",
+        "name": "update role",
+        "description": "Permit for update roles"
+    },
+    {
+        "code": "PDR001",
+        "name": "delete role",
+        "description": "Permit for delete roles"
+    },
+
+    {
+        "code": "PCP001",
+        "name": "create publication",
+        "description": "Permit for create publication"
+    },
+    {
+        "code": "PRP001",
+        "name": "read publication",
+        "description": "Permit for read publication"
+    },
+    {
+        "code": "PUP001",
+        "name": "update publication",
+        "description": "Permit for update publication"
+    },
+    {
+        "code": "PDP001",
+        "name": "delete publication",
+        "description": "Permit for delete publication"
+    },
+
+
+    {
+        "code": "PRPM01",
+        "name": "read permit",
+        "description": "Permit for read permit"
+    },
+    {
+        "code": "PUPM01",
+        "name": "update permit",
+        "description": "Permit for update permit"
+    }
+
+]

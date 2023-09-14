@@ -24,7 +24,7 @@ import { UpdateRoleDto } from '../dto/update-role.dto';
 import { PaginationQueryParamsPipe } from 'src/common/pipes/pagination-query-param.pipe';
 import { CurrentPath } from 'src/common/interfaces/current.path.interface';
 import { Auth } from 'src/auth/decorators/auth.decorator';
-import { RolesValid } from '../entities/enum/roles-valid.enum';
+import { ValidPermits } from 'src/common/permit/valid-permit';
 
 @ApiTags(CurrentPath.ROLE.toUpperCase())
 @Controller(CurrentPath.ROLE)
@@ -36,14 +36,14 @@ export class RoleController {
   @ApiCreatedResponseImplementation(Role)
   @Post()
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.CREATE_ROLE],
   })
   create(@Body() createRolDto: CreateRoleDto) {
     return this.roleService.create(createRolDto);
   }
 
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.READ_ROLE],
   })
   @ApiOkResponseImplementation({ type: [Role], method: 'get' })
   @Get()
@@ -55,7 +55,7 @@ export class RoleController {
   }
 
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.READ_ROLE],
   })
   @ApiOkResponseImplementation({ type: Role, method: 'get' })
   @ApiNotFoundImplementation()
@@ -65,7 +65,7 @@ export class RoleController {
   }
 
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.UPDATE_ROLE],
   })
   @ApiOkResponseImplementation({ type: Role, method: 'update' })
   @ApiNotFoundImplementation()
@@ -78,7 +78,7 @@ export class RoleController {
   }
 
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.DELETE_ROLE],
   })
   @ApiOkResponseImplementation({ method: 'delete' })
   @ApiNotFoundImplementation()

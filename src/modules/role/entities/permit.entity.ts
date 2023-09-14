@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from './role.entity';
+import { ValidPermits } from 'src/common/permit/valid-permit';
 
 @Entity({ name: 'permits' })
 export class Permit {
@@ -8,14 +9,23 @@ export class Permit {
   @PrimaryGeneratedColumn()
   id: number;
 
+
+  @ApiProperty({ maxLength: 45, uniqueItems: true })
+  @Column({
+    nullable: false,
+    name: 'code',
+    type: 'varchar',
+    length: 45,
+    unique: true,
+  })
+  code: ValidPermits;
+
   @ApiProperty({
     maxLength: 40,
-    uniqueItems: true,
     type: 'string',
   })
   @Column('varchar', {
     nullable: false,
-    unique: true,
     length: 40,
   })
   name: string;

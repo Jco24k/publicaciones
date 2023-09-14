@@ -7,10 +7,12 @@ import {
   Delete,
   Query,
   ParseIntPipe,
+  Post,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import {
   ApiControllerImplementation,
+  ApiCreatedResponseImplementation,
   ApiNotFoundImplementation,
   ApiOkResponseImplementation,
 } from 'src/common/decorators/swagger-controller.documentation';
@@ -21,9 +23,10 @@ import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../entities/employee.entity';
 import { UpdateEmployeeDto } from '../dto/update-employee.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
-import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
 import { GetUser } from 'src/auth/decorators/get-user.decorator';
 import { hasUserAdmin } from 'src/common/util/has-user-admin.utility';
+import { ValidPermits } from 'src/common/permit/valid-permit';
+import { CreateEmployeeDto } from '../dto/create-employee.dto';
 
 @ApiTags(CurrentPath.EMPLOYEE.toUpperCase())
 @Controller(CurrentPath.EMPLOYEE)
@@ -32,10 +35,19 @@ import { hasUserAdmin } from 'src/common/util/has-user-admin.utility';
 export class EmployeeController {
   constructor(private readonly service: EmployeeService) { }
 
+  @ApiCreatedResponseImplementation(Employee)
+  @Post()
+  @Auth({
+    roles: [ValidPermits.CREATE_EMPLOYEE],
+  })
+  create(@Body() dto: CreateEmployeeDto) {
+    return this.service.create(dto);
+  }
+
   @ApiOkResponseImplementation({ type: [Employee], method: 'get' })
   @Get()
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.READ_EMPLOYEE],
   })
   findAll(
     @Query(PaginationQueryParamsPipe(PaginationQueryParams))
@@ -48,7 +60,7 @@ export class EmployeeController {
   @ApiNotFoundImplementation()
   @Get(':id')
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR, RolesValid.SUPER_USER],
+    roles: [ValidPermits.READ_EMPLOYEE],
     sameUser: true,
   })
   findOne(@Param('id', ParseIntPipe) id: number, @GetUser() user: Employee) {
@@ -59,7 +71,7 @@ export class EmployeeController {
   @ApiNotFoundImplementation()
   @Patch(':id')
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.UPDATE_EMPLOYEE],
     sameUser: true,
   })
   update(
@@ -70,7 +82,7 @@ export class EmployeeController {
   }
 
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.DELETE_EMPLOYEE],
   })
   @ApiOkResponseImplementation({ method: 'delete' })
   @ApiNotFoundImplementation()

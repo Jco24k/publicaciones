@@ -6,9 +6,10 @@ import { RoleService } from './services/role.service';
 import { AuthModule } from 'src/auth/auth.module';
 import { PermitService } from './services/permit.service';
 import { Permit } from './entities/permit.entity';
+import { PermitController } from './controller/permit.controller';
 
 @Module({
-  controllers: [RoleController],
+  controllers: [RoleController, PermitController],
   providers: [RoleService, PermitService],
   imports: [TypeOrmModule.forFeature([Role, Permit]), forwardRef(() => AuthModule)],
   exports: [TypeOrmModule, RoleService, PermitService],

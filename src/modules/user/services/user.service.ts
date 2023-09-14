@@ -18,7 +18,9 @@ import { EmployeeService } from 'src/modules/employee/services/employee.service'
 export class UserService {
   private readonly entityName = User.name;
   private readonly relationsEntity: FindOptionsRelations<User> = {
-    roles: true,
+    roles: {
+      permits: true
+    },
   };
   constructor(
     @InjectRepository(User)

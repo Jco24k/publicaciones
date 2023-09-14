@@ -12,13 +12,14 @@ import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
 import { AuthResponseDto } from '../dto/auth-response.dto';
 import { Auth } from '../decorators/auth.decorator';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
+import { ValidPermits } from 'src/common/permit/valid-permit';
 
 @ApiTags(CurrentPath.AUTH.toUpperCase())
 @Controller(CurrentPath.AUTH)
 @ApiBearerAuth()
 @ApiControllerImplementation()
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @ApiResponse({
     status: HttpStatus.OK,
@@ -42,7 +43,7 @@ export class AuthController {
   @ApiCreatedResponseImplementation(User)
   @Post('signup')
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.CREATE_USER],
   })
   create(@Body() createRolDto: CreateUserDto) {
     return this.authService.create(createRolDto);

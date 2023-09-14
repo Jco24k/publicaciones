@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import { AppModule } from 'src/app.module';
 import { AppPipe } from 'src/config/app-pipe';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseService } from 'src/database/services/database.service';
 
 export const InitApp = async () => {
   const moduleRef = await Test.createTestingModule({

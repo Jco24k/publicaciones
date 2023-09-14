@@ -1,6 +1,0 @@
-{
-    "PCE001": "Permit for create employees",
-    "PRE001": "Permit for list employees",
-    "PUE001": "Permit for update employees",
-    "PDE001": "Permit for delete employees"
-}
