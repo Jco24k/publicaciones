@@ -12,7 +12,9 @@ services:
     ports:
       - "5432:5432"
   app_publication:
-    image: publication:1.0
+    build: 
+      context: .
+      dockerfile: Dockerfile
     environment:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASS}
