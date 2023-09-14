@@ -27,23 +27,18 @@ import { CreatePostDto } from '../dto/create-post.dto';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { QueryPararmsPost } from 'src/common/dto/query-params-post';
+import { ValidPermits } from 'src/common/permit/valid-permit';
 
 @ApiTags(CurrentPath.POST.toUpperCase())
 @Controller(CurrentPath.POST)
 @ApiControllerImplementation()
 @ApiBearerAuth()
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(private readonly postService: PostService) { }
 
   @Auth({
     roles: [
-      RolesValid.ADMINISTRADOR,
-      RolesValid.SUPER_USER,
-      RolesValid.USER,
-      RolesValid.TEST,
-      RolesValid.TEST_TWO,
-      RolesValid.TEST_THREE,
-      RolesValid.TEST_FOUR,
+      ValidPermits.READ_PUBLICATION
     ],
   })
   @ApiOkResponseImplementation({ type: [PostEntity], method: 'get' })
@@ -58,15 +53,7 @@ export class PostController {
   @ApiCreatedResponseImplementation(User)
   @Post()
   @Auth({
-    roles: [
-      RolesValid.ADMINISTRADOR,
-      RolesValid.SUPER_USER,
-      RolesValid.USER,
-      RolesValid.TEST,
-      RolesValid.TEST_TWO,
-      RolesValid.TEST_THREE,
-      RolesValid.TEST_FOUR,
-    ],
+    roles: [ValidPermits.CREATE_PUBLICATION],
   })
   create(@Body() createRolDto: CreatePostDto, @GetUser() user: User) {
     return this.postService.create(createRolDto, user);
@@ -76,7 +63,7 @@ export class PostController {
   @ApiNotFoundImplementation()
   @Get(':id')
   @Auth({
-    roles: [],
+    roles: [ValidPermits.READ_PUBLICATION],
   })
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.postService.getOneById({
@@ -87,7 +74,7 @@ export class PostController {
   @ApiOkResponseImplementation({ type: PostEntity, method: 'update' })
   @ApiNotFoundImplementation()
   @Auth({
-    roles: [],
+    roles: [ValidPermits.UPDATE_PUBLICATION],
   })
   @Patch(':id')
   update(
@@ -98,7 +85,7 @@ export class PostController {
   }
 
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.DELETE_PUBLICATION],
   })
   @ApiOkResponseImplementation({ method: 'delete' })
   @ApiNotFoundImplementation()
@@ -108,7 +95,7 @@ export class PostController {
   }
 
   @Auth({
-    roles: [RolesValid.ADMINISTRADOR],
+    roles: [ValidPermits.UPDATE_PUBLICATION],
   })
   @ApiOkResponseImplementation({ method: 'update' })
   @ApiNotFoundImplementation()

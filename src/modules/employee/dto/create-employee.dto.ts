@@ -4,6 +4,7 @@ import {
   IsEmail,
   IsInt,
   IsNumberString,
+  IsOptional,
   IsString,
   Length,
   Matches,
@@ -11,7 +12,7 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateEmployeeDto {
   @ApiProperty({ minLength: 1, maxLength: 40 })
@@ -20,10 +21,11 @@ export class CreateEmployeeDto {
   @MaxLength(40)
   name: string;
 
-  @ApiProperty({ minLength: 1, maxLength: 40 })
+  @ApiPropertyOptional({ minLength: 1, maxLength: 40 })
   @IsString()
   @MinLength(1)
   @MaxLength(40)
+  @IsOptional()
   last_name: string;
 
   @ApiProperty({

@@ -20,7 +20,7 @@ export class Role {
     unique: true,
     length: 40,
   })
-  name: RolesValid;
+  name: string;
 
   @ApiProperty({
     default: true,

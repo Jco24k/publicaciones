@@ -1,68 +1,55 @@
+import { ValidPermits } from 'src/common/permit/valid-permit';
+import { Permit } from 'src/modules/role/entities/permit.entity';
+import { roleDtoStub } from 'src/modules/seed/dto/role.dto.stub';
 import { PassportCrypt } from 'src/common/util/passport-crypt';
+import { Employee } from 'src/modules/employee/entities/employee.entity';
 import { Post } from 'src/modules/posts/entities/post.entity';
 import { RolesValid } from 'src/modules/role/entities/enum/roles-valid.enum';
 import { Role } from 'src/modules/role/entities/role.entity';
+import { employeeDtoStub } from 'src/modules/seed/dto/employee.dto.stub';
 import { User } from 'src/modules/user/entities/user.entity';
 import { DataSource, In } from 'typeorm';
 
 export const CleanDB = async (dbConnection: DataSource) => {
   await dbConnection.createQueryBuilder().delete().from(Post).execute();
   await dbConnection.createQueryBuilder().delete().from(User).execute();
-  // await dbConnection.createQueryBuilder().delete().from(Role).execute();
-  return await createFirstUserAdmin(dbConnection);
+  await dbConnection.createQueryBuilder().delete().from(Employee).execute();
+  await createFirstUserAdmin(dbConnection);
 };
 
 const createFirstUserAdmin = async (dataSource: DataSource) => {
   try {
-    // Obtener el DataSource resolviendo la promesa
-
-    // Obtener los repositorios para Role y User utilizando DataSource
+    const permitRepository = dataSource.getRepository(Permit);
     const roleRepository = dataSource.getRepository(Role);
+    const employeeRepository = dataSource.getRepository(Employee);
     const userRepository = dataSource.getRepository(User);
 
+    const permitAdmin = await permitRepository.findOne({
+      where: { code: ValidPermits.SUPER_ADMIN },
+    });
     const adminUser = process.env.USER_ADMIN;
     const adminPass = process.env.PASS_ADMIN;
-
-    // Verificar si los roles ya están registrados en la base de datos
-    const rolesValid = Object.values(RolesValid);
-    const existingRoles = await roleRepository.find({
-      where: {
-        name: In(rolesValid),
-      },
+    const roleAdminName = process.env.ADMIN_ROLE;
+    let roleAdmin = await roleRepository.findOne({
+      where: { name: roleAdminName },
     });
-
-    // Registrar los roles que aún no existen en la base de datos
-    if (existingRoles.length !== rolesValid.length) {
-      const rolesToRegister = rolesValid.filter(
-        (role) =>
-          !existingRoles.some((existingRole) => existingRole.name === role),
+    if (!roleAdmin)
+      roleAdmin = await roleRepository.save(
+        roleDtoStub([permitAdmin.id], roleAdminName),
       );
-      const rolesCreatePromises = rolesToRegister.map((role) => {
-        return roleRepository.save({
-          name: role,
-        });
-      });
-      await Promise.all(rolesCreatePromises);
-    }
-
-    // Obtener todos los roles de la base de datos
-    const roles = await roleRepository.find();
-
-    // Verificar si el usuario administrador ya existe
-    const existingAdminUser = await userRepository.findOne({
+    let userFind = await userRepository.findOne({
       where: { username: adminUser },
     });
-
-    // Si el usuario administrador no existe, crearlo
-    if (!existingAdminUser) {
-      await userRepository.save({
+    if (!userFind) {
+      const employeeCreate = await employeeRepository.save(employeeDtoStub());
+      userFind = await userRepository.save({
         email: adminUser,
         username: adminUser,
-        password: PassportCrypt.encrypt(adminPass), // Asegúrate de que esto esté correctamente implementado
-        roles,
-      });
+        password: PassportCrypt.encrypt(adminPass),
+        roles: [roleAdmin],
+        employee: employeeCreate
+      } as User);
     }
-    return roles[0]
   } catch (error) {
     console.error('Error creating the first admin user:', error);
   }

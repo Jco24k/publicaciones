@@ -3,7 +3,7 @@ import { CreateEmployeeDto } from 'src/modules/employee/dto/create-employee.dto'
 
 export const employeeDtoStub = (): CreateEmployeeDto => {
   return {
-    name: faker.company.name(),
+    name: faker.string.nanoid(40),
     last_name: faker.company.name(),
     dni: faker.string.numeric({
         allowLeadingZeros: true,
