@@ -5,6 +5,7 @@ export interface Config {
     password: string;
     port: number;
     database: string;
+    ssl: boolean;
   };
   query: {
     page_number: number;

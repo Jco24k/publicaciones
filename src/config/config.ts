@@ -10,6 +10,7 @@ export default registerAs(
       password: process.env.DB_PASS,
       port: +process.env.DB_PORT,
       username: process.env.DB_USER,
+      ssl: process.env.NODE_ENV == 'development' ? false : true,
     },
     jwt: {
       expire: process.env.JWT_EXPIRE,
