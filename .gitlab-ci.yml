@@ -1,0 +1,43 @@
+image: node:16-alpine
+stages:
+  - build
+  - test
+
+install-dependencies:
+  stage: build
+  script:
+    - npm install --only=production
+    - npm run build
+    - npm run start
+  artifacts:
+    expire_in: 1hr
+    paths:
+      - node_modules/
+  cache:
+    paths:
+      - node_modules/
+  only:
+    - dev
+
+test-apps:
+  stage: test
+  dependencies:
+    - install-dependencies
+  before_script:
+    - echo "DB_DATABASE=${DB_DATABASE}" >> .env
+    - echo "DB_HOST=${DB_HOST}" >> .env
+    - echo "DB_PASS=${DB_PASS}" >> .env
+    - echo "DB_USER=${DB_USER}" >> .env
+    - echo "DB_PORT=${DB_PORT}" >> .env
+    
+    - echo "JWT_EXPIRE=${JWT_EXPIRE}" >> .env
+    - echo "JWT_SECRET=${JWT_SECRET}" >> .env
+    - echo "PAGE_NUMBER=${PAGE_NUMBER}" >> .env
+    - echo "PAGE_SIZE=${PAGE_SIZE}" >> .env
+    - echo "USER_ADMIN=${USER_ADMIN}" >> .env
+    - echo "PASS_ADMIN=${PASS_ADMIN}" >> .env
+    - echo "ADMIN_ROLE=${ADMIN_ROLE}" >> .env
+    - echo "PORT=${PORT}" >> .env
+  script:
+    - npm install --only=development
+    - npm run test:e2e
