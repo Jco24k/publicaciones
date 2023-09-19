@@ -4,16 +4,7 @@ stages:
   - test
   - deploy
 
-deploy-app:
-  stage: deploy
-  dependencies:
-    - test-apps
-  before_script:
-    - npm install -g pm2
-  only:
-    - dev
-  script:
-    - pm2 start ecosystem.config.js
+
 
 install-dependencies:
   stage: build
@@ -53,5 +44,3 @@ test-apps:
     - "npm install --only=development"
   script:
     - "npm run test:e2e"
-include:
-  template: SAST.gitlab-ci.yml
