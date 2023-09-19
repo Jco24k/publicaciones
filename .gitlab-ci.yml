@@ -2,16 +2,26 @@ image: node:16-alpine
 stages:
   - build
   - test
+  - deploy
+
+deploy-app:
+  stage: deploy
+  dependencies:
+    - test-apps
+  before_script:
+    - npm install -g pm2
+  only:
+    - dev
+  script:
+    - pm2 start ecosystem.config.js
 
 install-dependencies:
   stage: build
   before_script:
     - npm i -g @nestjs/cli
-    - npm install -g pm2
   script:
     - npm install --only=production
     - npm run build
-    - pm2 start ecosystem.config.js
   artifacts:
     expire_in: 1hr
     paths:
@@ -19,8 +29,7 @@ install-dependencies:
   cache:
     paths:
       - node_modules/
-  only:
-    - dev
+
 
 test-apps:
   stage: test
