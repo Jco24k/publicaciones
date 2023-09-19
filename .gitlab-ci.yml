@@ -3,12 +3,25 @@ stages:
   - build
   - test
   - deploy
+variables:
+  DB_DATABASE: $DB_DATABASE
+  DB_HOST: $DB_HOST
+  DB_PASS: $DB_PASS
+  DB_USER: $DB_USER
+  DB_PORT: $DB_PORT
+  JWT_EXPIRE: $JWT_EXPIRE
+  JWT_SECRET: $JWT_SECRET
+  PAGE_NUMBER: $PAGE_NUMBER
+  PAGE_SIZE: $PAGE_SIZE
+  USER_ADMIN: $USER_ADMIN
+  PASS_ADMIN: $PASS_ADMIN
+  ADMIN_ROLE: $ADMIN_ROLE
+  PORT: $PORT
 
 deploy-app:
   stage: deploy
   dependencies:
     - test-apps
-    - install-dependencies
   before_script:
     - npm i -g @nestjs/cli
     - npm install --only=production
@@ -25,27 +38,8 @@ deploy-app:
       - node_modules/
   only:
     - main
-install-dependencies:
-  stage: build
-  script:
-    - echo "DB_DATABASE=$DB_DATABASE" > .env
-    - echo "DB_HOST=$DB_HOST" >> .env
-    - echo "DB_PASS=$DB_PASS" >> .env
-    - echo "DB_USER=$DB_USER" >> .env
-    - echo "DB_PORT=$DB_PORT" >> .env
-    
-    - echo "JWT_EXPIRE=$JWT_EXPIRE" >> .env
-    - echo "JWT_SECRET=$JWT_SECRET" >> .env
-    - echo "PAGE_NUMBER=$PAGE_NUMBER" >> .env
-    - echo "PAGE_SIZE=$PAGE_SIZE" >> .env
-    - echo "USER_ADMIN=$USER_ADMIN" >> .env
-    - echo "PASS_ADMIN=$PASS_ADMIN" >> .env
-    - echo "ADMIN_ROLE=$ADMIN_ROLE" >> .env
-    - echo "PORT=$PORT" >> .env
 test-apps:
   stage: test
-  dependencies:
-    - install-dependencies
   before_script:
     - "npm install --only=development"
   script:
