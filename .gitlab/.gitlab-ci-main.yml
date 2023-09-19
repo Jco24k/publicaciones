@@ -6,4 +6,4 @@ only:
 build-app:
   stage: build
   script:
-    - echo "asdas"
+    - docker-compose -f ../docker-compose.prod.yml up 
