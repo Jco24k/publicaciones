@@ -10,18 +10,11 @@ deploy-app:
     - test-apps
   before_script:
     - npm install -g pm2
+    - npm install --only=production
   only:
     - dev
   script:
     - pm2 start ecosystem.config.js
-
-install-dependencies:
-  stage: build
-  before_script:
-    - npm i -g @nestjs/cli
-  script:
-    - npm install --only=production
-    - npm run build
   artifacts:
     expire_in: 1hr
     paths:
@@ -30,11 +23,8 @@ install-dependencies:
     paths:
       - node_modules/
 
-
-test-apps:
-  stage: test
-  dependencies:
-    - install-dependencies
+install-dependencies:
+  stage: build
   before_script:
     - echo "DB_DATABASE=$DB_DATABASE" > .env
     - echo "DB_HOST=$DB_HOST" >> .env
@@ -50,6 +40,13 @@ test-apps:
     - echo "PASS_ADMIN=$PASS_ADMIN" >> .env
     - echo "ADMIN_ROLE=$ADMIN_ROLE" >> .env
     - echo "PORT=$PORT" >> .env
+  script:
+    - npm i -g @nestjs/cli
+test-apps:
+  stage: test
+  dependencies:
+    - install-dependencies
+  before_script:
     - "npm install --only=development"
   script:
     - "npm run test:e2e"
