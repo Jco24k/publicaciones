@@ -1,17 +1,55 @@
+image: node:16-alpine
 stages:
   - build
+  - test
+  - deploy
 
-build-app:
-  stage: build
+deploy-app:
+  stage: deploy
+  dependencies:
+    - test-apps
+    - install-dependencies
   before_script:
-    - sudo apt install apt-transport-https ca-certificates curl software-properties-common
-    - curl -L "https://github.com/docker/compose/releases/download/1.26.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    - sudo chmod +x /usr/local/bin/docker-compose
-    - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-    - sudo apt install docker-ce
-    - sudo systemctl status docker
+    - npm i -g @nestjs/cli
+    - npm install --only=production
+    - npm install -g pm2
+    - npm run build
   script:
-    - docker-compose -f docker-compose.prod.yml up 
+    - pm2 start ecosystem.config.js
+  artifacts:
+    expire_in: 1hr
+    paths:
+      - node_modules/
+  cache:
+    paths:
+      - node_modules/
   only:
     - main
+install-dependencies:
+  stage: build
+  script:
+    - echo "DB_DATABASE=$DB_DATABASE" > .env
+    - echo "DB_HOST=$DB_HOST" >> .env
+    - echo "DB_PASS=$DB_PASS" >> .env
+    - echo "DB_USER=$DB_USER" >> .env
+    - echo "DB_PORT=$DB_PORT" >> .env
+    
+    - echo "JWT_EXPIRE=$JWT_EXPIRE" >> .env
+    - echo "JWT_SECRET=$JWT_SECRET" >> .env
+    - echo "PAGE_NUMBER=$PAGE_NUMBER" >> .env
+    - echo "PAGE_SIZE=$PAGE_SIZE" >> .env
+    - echo "USER_ADMIN=$USER_ADMIN" >> .env
+    - echo "PASS_ADMIN=$PASS_ADMIN" >> .env
+    - echo "ADMIN_ROLE=$ADMIN_ROLE" >> .env
+    - echo "PORT=$PORT" >> .env
+test-apps:
+  stage: test
+  dependencies:
+    - install-dependencies
+  before_script:
+    - "npm install --only=development"
+  script:
+    - "npm run test:e2e"
+
+include:
+  template: SAST.gitlab-ci.yml

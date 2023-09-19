@@ -1,9 +1,0 @@
-stages:
-  - build
-only:
-  - main
-
-build-app:
-  stage: build
-  script:
-    - docker-compose -f ../docker-compose.prod.yml up 
