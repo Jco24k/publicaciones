@@ -51,5 +51,3 @@ test-apps:
     - "npm install --only=development"
   script:
     - "npm run test:e2e"
-include:
-  template: SAST.gitlab-ci.yml

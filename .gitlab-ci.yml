@@ -1,0 +1,3 @@
+include:
+  - local: '.gitlab-ci/dev.yml'
+  template: SAST.gitlab-ci.yml
