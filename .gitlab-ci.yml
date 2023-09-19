@@ -50,8 +50,8 @@ test-apps:
     - echo "PASS_ADMIN=${PASS_ADMIN}" >> .env
     - echo "ADMIN_ROLE=${ADMIN_ROLE}" >> .env
     - echo "PORT=${PORT}" >> .env
+    - "npm install --only=development"
   script:
-    - npm install --only=development
-    - npm run test:e2e
+    - "npm run test:e2e"
 include:
   template: SAST.gitlab-ci.yml
