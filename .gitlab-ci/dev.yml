@@ -25,7 +25,8 @@ deploy-app:
   cache:
     paths:
       - node_modules/
-
+  only:
+    - dev
 install-dependencies:
   stage: build
   script:
@@ -51,3 +52,7 @@ test-apps:
     - "npm install --only=development"
   script:
     - "npm run test:e2e"
+  only:
+    - dev
+include:
+  template: SAST.gitlab-ci.yml
