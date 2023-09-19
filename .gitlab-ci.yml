@@ -36,7 +36,7 @@ test-apps:
   dependencies:
     - install-dependencies
   before_script:
-    - echo "DB_DATABASE=${DB_DATABASE}" >> .env
+    - echo "DB_DATABASE=${DB_DATABASE}" > .env
     - echo "DB_HOST=${DB_HOST}" >> .env
     - echo "DB_PASS=${DB_PASS}" >> .env
     - echo "DB_USER=${DB_USER}" >> .env
