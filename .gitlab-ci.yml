@@ -5,10 +5,13 @@ stages:
 
 install-dependencies:
   stage: build
+  before_script:
+    - npm i -g @nestjs/cli
+    - npm install -g pm2
   script:
     - npm install --only=production
     - npm run build
-    - npm run start
+    - pm2 start ecosystem.config.js
   artifacts:
     expire_in: 1hr
     paths:
