@@ -1,2 +1,9 @@
-include:
-  - local: '.gitlab-ci/dev.yml'
+stages:
+  - build
+
+build-app:
+  stage: build
+  script:
+    - docker-compose -f docker-compose.prod.yml up 
+  only:
+    - main
