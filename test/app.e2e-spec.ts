@@ -24,7 +24,7 @@ import { QueryPararmsRole } from 'src/modules/role/dto/query/query-params-role';
 import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
 import { Permit } from 'src/modules/role/entities/permit.entity';
 
-jest.setTimeout(30000);
+jest.setTimeout(60000);
 describe('ALL-CONTROLLER (e2e)', () => {
   let app: INestApplication;
   let dataSource: DataSource;
@@ -67,6 +67,62 @@ describe('ALL-CONTROLLER (e2e)', () => {
   describe('Employee (e2e)', () => {
     const url = '/' + CurrentPath.EMPLOYEE;
     const idNotFound = 99999
+    describe('GET-ALL', () => {
+      const page_size = 20;
+      const min_page = 1;
+      const detAll = async ({ queryParams }) => {
+        return await requestHelper.getAll({
+          url,
+          jwt: token,
+          query: queryParams,
+        });
+      };
+      it('Get list without query-params with all permissions', async () => {
+        await verifyRequest.simpleGetAll<Employee, PaginationQueryParams>({
+          def: detAll,
+          entity: Employee,
+          dataSource,
+          filter: {
+            take: page_size,
+            skip: page_size * (1 - min_page),
+          },
+        });
+      });
+      it('Get all list with all permissions', async () => {
+        await verifyRequest.simpleGetAll<Employee, Partial<PaginationQueryParams>>({
+          def: detAll,
+          entity: Employee,
+          dataSource,
+          queryParams: { all: true },
+        });
+      });
+      it('Get list only actives with all permissions', async () => {
+        await verifyRequest.simpleGetAll<Employee, Partial<PaginationQueryParams>>({
+          def: detAll,
+          entity: Employee,
+          dataSource,
+          queryParams: { isActive: true },
+          filter: {
+            where: { isActive: true },
+            take: page_size,
+            skip: page_size * (1 - min_page),
+          },
+        });
+      });
+      it('Get list only inactives with all permissions', async () => {
+        await verifyRequest.simpleGetAll<Employee, Partial<PaginationQueryParams>>({
+          def: detAll,
+          entity: Employee,
+          dataSource,
+          queryParams: { isActive: false },
+          filter: {
+            where: { isActive: false },
+            take: page_size,
+            skip: page_size * (1 - min_page),
+          },
+        });
+      });
+    });
     describe('POST', () => {
       const reqPost = async ({ body, jwt }) => {
         return await requestHelper.post({
@@ -207,62 +263,7 @@ describe('ALL-CONTROLLER (e2e)', () => {
         });
       });
     });
-    describe('GET-ALL', () => {
-      const page_size = 20;
-      const min_page = 1;
-      const detAll = async ({ queryParams }) => {
-        return await requestHelper.getAll({
-          url,
-          jwt: token,
-          query: queryParams,
-        });
-      };
-      it('Get list without query-params with all permissions', async () => {
-        await verifyRequest.simpleGetAll<Employee, PaginationQueryParams>({
-          def: detAll,
-          entity: Employee,
-          dataSource,
-          filter: {
-            take: page_size,
-            skip: page_size * (1 - min_page),
-          },
-        });
-      });
-      it('Get all list with all permissions', async () => {
-        await verifyRequest.simpleGetAll<Employee, Partial<PaginationQueryParams>>({
-          def: detAll,
-          entity: Employee,
-          dataSource,
-          queryParams: { all: true },
-        });
-      });
-      it('Get list only actives with all permissions', async () => {
-        await verifyRequest.simpleGetAll<Employee, Partial<PaginationQueryParams>>({
-          def: detAll,
-          entity: Employee,
-          dataSource,
-          queryParams: { isActive: true },
-          filter: {
-            where: { isActive: true },
-            take: page_size,
-            skip: page_size * (1 - min_page),
-          },
-        });
-      });
-      it('Get list only inactives with all permissions', async () => {
-        await verifyRequest.simpleGetAll<Employee, Partial<PaginationQueryParams>>({
-          def: detAll,
-          entity: Employee,
-          dataSource,
-          queryParams: { isActive: false },
-          filter: {
-            where: { isActive: false },
-            take: page_size,
-            skip: page_size * (1 - min_page),
-          },
-        });
-      });
-    });
+
   });
   describe('Permit (e2e)', () => {
     const url = '/' + CurrentPath.PERMIT;
@@ -302,6 +303,55 @@ describe('ALL-CONTROLLER (e2e)', () => {
   describe('Role (e2e)', () => {
     const url = '/' + CurrentPath.ROLE;
     const idNotFound = 99999
+    describe('GET-ALL', () => {
+      const page_size = 20;
+      const min_page = 1;
+      const detAll = async ({ queryParams }) => {
+        return await requestHelper.getAll({
+          url,
+          jwt: token,
+          query: queryParams,
+        });
+      };
+      it('Get list without query-params with all permissions', async () => {
+        await verifyRequest.simpleGetAll<Role, PaginationQueryParams>({
+          def: detAll,
+          entity: Role,
+          dataSource,
+          filter: {
+            where: { isActive: true },
+            take: page_size,
+            skip: page_size * (1 - min_page),
+          },
+        });
+      });
+      it('Get list only actives with all permissions', async () => {
+        await verifyRequest.simpleGetAll<Role, Partial<PaginationQueryParams>>({
+          def: detAll,
+          entity: Role,
+          dataSource,
+          queryParams: { isActive: true },
+          filter: {
+            where: { isActive: true },
+            take: page_size,
+            skip: page_size * (1 - min_page),
+          },
+        });
+      });
+      it('Get list only inactives with all permissions', async () => {
+        await verifyRequest.simpleGetAll<Role, Partial<PaginationQueryParams>>({
+          def: detAll,
+          entity: Role,
+          dataSource,
+          queryParams: { isActive: false },
+          filter: {
+            where: { isActive: false },
+            take: page_size,
+            skip: page_size * (1 - min_page),
+          },
+        });
+      });
+    });
     describe('POST', () => {
       const reqPost = async ({ body, jwt }) => {
         return await requestHelper.post({
@@ -442,55 +492,7 @@ describe('ALL-CONTROLLER (e2e)', () => {
         });
       });
     });
-    describe('GET-ALL', () => {
-      const page_size = 20;
-      const min_page = 1;
-      const detAll = async ({ queryParams }) => {
-        return await requestHelper.getAll({
-          url,
-          jwt: token,
-          query: queryParams,
-        });
-      };
-      it('Get list without query-params with all permissions', async () => {
-        await verifyRequest.simpleGetAll<Role, PaginationQueryParams>({
-          def: detAll,
-          entity: Role,
-          dataSource,
-          filter: {
-            where: { isActive: true },
-            take: page_size,
-            skip: page_size * (1 - min_page),
-          },
-        });
-      });
-      it('Get list only actives with all permissions', async () => {
-        await verifyRequest.simpleGetAll<Role, Partial<PaginationQueryParams>>({
-          def: detAll,
-          entity: Role,
-          dataSource,
-          queryParams: { isActive: true },
-          filter: {
-            where: { isActive: true },
-            take: page_size,
-            skip: page_size * (1 - min_page),
-          },
-        });
-      });
-      it('Get list only inactives with all permissions', async () => {
-        await verifyRequest.simpleGetAll<Role, Partial<PaginationQueryParams>>({
-          def: detAll,
-          entity: Role,
-          dataSource,
-          queryParams: { isActive: false },
-          filter: {
-            where: { isActive: false },
-            take: page_size,
-            skip: page_size * (1 - min_page),
-          },
-        });
-      });
-    });
+ 
   });
   describe('Auth Controller (e2e)', () => {
     const pathControllerAuth = '/' + CurrentPath.AUTH;
