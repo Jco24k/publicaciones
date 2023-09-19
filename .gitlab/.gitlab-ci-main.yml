@@ -6,6 +6,4 @@ only:
 build-app:
   stage: build
   script:
-    - docker-compose -f ../docker-compose.prod.yml up 
-include:
-  template: SAST.gitlab-ci.yml
+    - echo "asdas"
