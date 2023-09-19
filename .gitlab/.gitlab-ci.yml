@@ -5,7 +5,8 @@ stages:
   - deploy
 only:
   - dev
-
+before_script:
+  - cd ..
 deploy-app:
   stage: deploy
   dependencies:
