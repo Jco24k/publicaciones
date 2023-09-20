@@ -17,9 +17,7 @@ variables:
   PASS_ADMIN: $PASS_ADMIN
   ADMIN_ROLE: $ADMIN_ROLE
   PORT: $PORT
-include:
-  template: SAST.gitlab-ci.yml
-  
+
 deploy-app:
   stage: deploy
   dependencies:
@@ -47,3 +45,5 @@ test-apps:
   script:
     - "npm run test:e2e"
 
+include:
+  template: SAST.gitlab-ci.yml
