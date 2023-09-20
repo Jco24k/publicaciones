@@ -17,7 +17,6 @@ variables:
   PASS_ADMIN: $PASS_ADMIN
   ADMIN_ROLE: $ADMIN_ROLE
   PORT: $PORT
-
 deploy-app:
   stage: deploy
   dependencies:
